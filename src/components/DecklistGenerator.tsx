@@ -43,6 +43,16 @@ export const DecklistGenerator = () => {
     setFormData(nextFormData);
   };
 
+  const printPDF = (evt: Event) => {
+    evt.preventDefault();
+
+    const iframe = document.querySelector("iframe");
+
+    if (iframe) {
+      iframe.contentWindow?.print();
+    }
+  };
+
   return (
     <form onSubmit={onGenerate}>
       <div class="flex flex-row space-x-3">
@@ -69,6 +79,12 @@ export const DecklistGenerator = () => {
           class="rounded border-blue-800 border-2 bg-blue-600 text-white font-bold py-2 px-4"
         >
           Generate
+        </button>
+        <button
+          class="rounded border-green-800 border-2 bg-green-600 text-white font-bold py-2 px-4 ml-4"
+          onClick={printPDF}
+        >
+          Print
         </button>
       </div>
     </form>
