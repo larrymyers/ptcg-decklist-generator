@@ -1,11 +1,11 @@
-interface Card {
+export interface Card {
   quantity: number;
   name: string;
   set: string;
   number: string;
 }
 
-interface Deck {
+export interface Deck {
   pokemon: Card[];
   trainers: Card[];
   energy: Card[];
@@ -20,6 +20,10 @@ export const parseDecklist = (decklist: string): Deck => {
 
   for (let line of lines) {
     line = line.trim();
+
+    if (line.length === 0) {
+      continue;
+    }
 
     if (line.startsWith("Pokémon:")) {
       section = "pokemon";
@@ -43,6 +47,10 @@ export const parseDecklist = (decklist: string): Deck => {
     card.number = parts.slice(-1).join("");
     card.set = parts.slice(-2, -1).join("");
     card.name = parts.slice(1, -2).join(" ");
+
+    if (!deck[section]) {
+      continue;
+    }
 
     deck[section].push(card);
   }

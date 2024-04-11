@@ -1,57 +1,103 @@
-import { getDocument, GlobalWorkerOptions } from "pdfjs-dist";
-import pdfJSWorkerURL from "pdfjs-dist/build/pdf.worker?url";
+import type { Card, Deck } from "@src/decklist/parser";
+import { type PDFPage, type PDFFont, PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { useEffect, useRef } from "preact/hooks";
-
-GlobalWorkerOptions.workerSrc = pdfJSWorkerURL;
 
 const pdfUrl = "/play-pokemon-deck-list-85x11-tef.pdf";
 
-export const PdfViewer = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+type CardType = "pokemon" | "trainer" | "energy";
+
+export const PdfViewer = ({ deck }: { deck: Deck }) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
     const renderPdf = async () => {
-      var canvas = canvasRef.current;
+      var iframe = iframeRef.current;
 
-      if (!canvas) {
+      if (!iframe) {
         return;
       }
 
-      const pdf = await getDocument(pdfUrl).promise;
-      const page = await pdf.getPage(1);
+      const pdfData = await fetch(pdfUrl).then((res) => res.arrayBuffer());
 
-      const scale = 1.5;
-      const viewport = page.getViewport({ scale });
+      const pdf = await PDFDocument.load(pdfData);
+      const helvetica = await pdf.embedFont(StandardFonts.Helvetica);
+      const page = pdf.getPage(0);
+
+      deck.pokemon.forEach((card, i) => {
+        drawRow(page, helvetica, i, "pokemon", card);
+      });
+
+      deck.trainers.forEach((card, i) => {
+        drawRow(page, helvetica, i, "trainer", card);
+      });
+
+      deck.energy.forEach((card, i) => {
+        drawRow(page, helvetica, i, "energy", card);
+      });
+
+      const dataUri = await pdf.saveAsBase64({ dataUri: true });
+      const viewport = page.getSize();
       const outputScale = window.devicePixelRatio || 1;
 
-      const context = canvas.getContext("2d");
+      iframe.width = Math.floor(viewport.width * outputScale).toString();
+      iframe.height = Math.floor(viewport.height * outputScale).toString();
+      iframe.style.width = Math.floor(viewport.width) + "px";
+      iframe.style.height = Math.floor(viewport.height) + "px";
 
-      if (!context) {
-        return;
-      }
-
-      canvas.width = Math.floor(viewport.width * outputScale);
-      canvas.height = Math.floor(viewport.height * outputScale);
-      canvas.style.width = Math.floor(viewport.width) + "px";
-      canvas.style.height = Math.floor(viewport.height) + "px";
-
-      const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : undefined;
-
-      const renderContext = {
-        canvasContext: context,
-        transform,
-        viewport,
-      };
-
-      const renderTask = page.render(renderContext);
-      await renderTask.promise;
+      iframe.src = dataUri;
     };
 
     renderPdf().catch((err) => console.error(err));
-  }, [canvasRef]);
+  }, [iframeRef]);
 
   return (
     <div>
-      <canvas ref={canvasRef}></canvas>
+      <iframe ref={iframeRef}></iframe>
     </div>
   );
+};
+
+const drawRow = (page: PDFPage, font: PDFFont, rowNum: number, cardType: CardType, card: Card) => {
+  let cardTypeOffset = 0;
+
+  if (cardType == "trainer") {
+    cardTypeOffset = 177;
+  }
+
+  if (cardType == "energy") {
+    cardTypeOffset = 458;
+  }
+
+  const yOffset = 587 - rowNum * 13 - cardTypeOffset;
+
+  page.drawText(card.quantity.toString(), {
+    x: 272,
+    y: yOffset,
+    size: 9,
+    font,
+    color: rgb(0, 0, 0),
+  });
+
+  page.drawText(card.name, {
+    x: 300,
+    y: yOffset,
+    size: 9,
+    font,
+    color: rgb(0, 0, 0),
+  });
+
+  page.drawText(card.set, {
+    x: 475,
+    y: yOffset,
+    size: 9,
+    font,
+    color: rgb(0, 0, 0),
+  });
+
+  page.drawText(card.number, {
+    x: 515,
+    y: yOffset,
+    size: 9,
+    font,
+    color: rgb(0, 0, 0),
+  });
 };
