@@ -13,12 +13,12 @@ export interface Player {
 export type CardType = "pokemon" | "trainer" | "energy";
 
 export const PdfViewer = ({ deck, player }: { deck: Deck; player: Player }) => {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const embedRef = useRef<HTMLObjectElement>(null);
   useEffect(() => {
     const renderPdf = async () => {
-      var iframe = iframeRef.current;
+      var embed = embedRef.current;
 
-      if (!iframe) {
+      if (!embed) {
         return;
       }
 
@@ -99,15 +99,20 @@ export const PdfViewer = ({ deck, player }: { deck: Deck; player: Player }) => {
         drawRow(page, helvetica, i, "energy", card);
       });
 
-      const dataUri = await pdf.saveAsBase64({ dataUri: true });
+      const bytes = await pdf.save();
+      const blob = new Blob([bytes], { type: "application/pdf" });
 
-      iframe.src = dataUri;
+      embed.data = URL.createObjectURL(blob);
     };
 
     renderPdf().catch((err) => console.error(err));
-  }, [iframeRef, deck]);
+  }, [embedRef, deck, player]);
 
-  return <iframe ref={iframeRef} width="90%" height="100%"></iframe>;
+  return (
+    <object ref={embedRef} type="application/pdf" class="w-11/12 h-full">
+      Placeholder
+    </object>
+  );
 };
 
 const drawRow = (page: PDFPage, font: PDFFont, rowNum: number, cardType: CardType, card: Card) => {
