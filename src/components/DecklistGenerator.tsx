@@ -1,51 +1,76 @@
-import { parseDecklist } from "@src/decklist/parser";
-import { PdfViewer } from "./PdfViewer";
-
-const deckList = `
-Pokémon: 18
-4 Charmander OBF 26
-1 Charmeleon PAF 8
-3 Charizard ex OBF 125
-2 Pidgey MEW 16
-2 Pidgeot ex OBF 217
-1 Bidoof CRZ 111
-1 Bibarel BRS 121
-1 Rotom V CRZ 45
-1 Manaphy CRZ GG6
-1 Radiant Charizard CRZ 20
-1 Lumineon V PR-SW 250
-
-Trainer: 35
-3 Arven SVI 166
-3 Iono PAL 185
-2 Boss's Orders PAL 172
-1 Professor Turo's Scenario PAR 240
-4 Ultra Ball BRS 150
-4 Rare Candy PAF 89
-3 Nest Ball SVI 181
-3 Buddy-Buddy Poffin TEF 144
-2 Super Rod PAL 188
-2 Counter Catcher PAR 160
-1 Lost Vacuum LOR 162
-1 Switch SVI 194
-1 Pal Pad SVI 182
-1 Prime Catcher TEF 157
-1 Forest Seal Stone SIT 156
-1 Vitality Band SVI 197
-1 Choice Belt PAL 176
-1 Collapsed Stadium BRS 137
-
-Energy: 7
-6 Fire Energy BRS R
-1 Mist Energy TEF 161
-`;
+import { parseDecklist, type Deck } from "@src/decklist/parser";
+import { PdfViewer, type Player } from "./PdfViewer";
+import { useRef, useState } from "preact/hooks";
+import { parse } from "date-fns/parse";
 
 export const DecklistGenerator = () => {
-  const deck = parseDecklist(deckList);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const playerIdRef = useRef<HTMLInputElement>(null);
+  const dobRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [formData, setFormData] = useState<{ player: Player; deck: Deck }>({
+    player: {
+      name: "",
+      playerId: "",
+      dob: new Date(),
+    },
+    deck: { pokemon: [], trainers: [], energy: [] },
+  });
+
+  const onGenerate = (evt: Event) => {
+    evt.preventDefault();
+
+    const nextFormData = { ...formData };
+
+    if (nameRef.current) {
+      nextFormData.player.name = nameRef.current.value;
+    }
+
+    if (playerIdRef.current) {
+      nextFormData.player.playerId = playerIdRef.current.value;
+    }
+
+    if (dobRef.current) {
+      nextFormData.player.dob = parse(dobRef.current.value, "MM/dd/yyyy", new Date());
+    }
+
+    if (textareaRef.current) {
+      const content = textareaRef.current.value;
+      const deck = parseDecklist(content);
+      nextFormData.deck = deck;
+    }
+
+    setFormData(nextFormData);
+  };
 
   return (
-    <div>
-      <PdfViewer deck={deck} />
-    </div>
+    <form onSubmit={onGenerate}>
+      <div class="flex flex-row space-x-3">
+        <input ref={nameRef} type="text" placeholder="Full Name" autoFocus />
+        <input ref={playerIdRef} type="text" placeholder="Player ID" />
+        <input ref={dobRef} type="text" placeholder="MM/DD/YYYY" />
+      </div>
+      <div class="flex mt-4">
+        <div class="basis-1/3">
+          <textarea
+            ref={textareaRef}
+            rows={30}
+            class="w-full h-full"
+            placeholder="Deck list exported from Limitless or PTCGL"
+          />
+        </div>
+        <div class="basis-2/3 ml-4">
+          <PdfViewer deck={formData.deck} player={formData.player} />
+        </div>
+      </div>
+      <div class="mt-4">
+        <button
+          type="submit"
+          class="rounded border-blue-800 border-2 bg-blue-600 text-white font-bold py-2 px-4"
+        >
+          Generate
+        </button>
+      </div>
+    </form>
   );
 };

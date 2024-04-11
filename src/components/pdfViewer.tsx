@@ -1,12 +1,18 @@
 import type { Card, Deck } from "@src/decklist/parser";
-import { type PDFPage, type PDFFont, PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import { type PDFPage, type PDFFont, PDFDocument, StandardFonts, rgb, drawText } from "pdf-lib";
 import { useEffect, useRef } from "preact/hooks";
 
 const pdfUrl = "/play-pokemon-deck-list-85x11-tef.pdf";
 
-type CardType = "pokemon" | "trainer" | "energy";
+export interface Player {
+  name: string;
+  playerId: string;
+  dob: Date;
+}
 
-export const PdfViewer = ({ deck }: { deck: Deck }) => {
+export type CardType = "pokemon" | "trainer" | "energy";
+
+export const PdfViewer = ({ deck, player }: { deck: Deck; player: Player }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
     const renderPdf = async () => {
@@ -22,6 +28,65 @@ export const PdfViewer = ({ deck }: { deck: Deck }) => {
       const helvetica = await pdf.embedFont(StandardFonts.Helvetica);
       const page = pdf.getPage(0);
 
+      page.drawText(player.name, {
+        x: 95,
+        y: 715,
+        size: 9,
+        font: helvetica,
+        color: rgb(0, 0, 0),
+      });
+
+      page.drawText(player.playerId, {
+        x: 295,
+        y: 715,
+        size: 9,
+        font: helvetica,
+        color: rgb(0, 0, 0),
+      });
+
+      page.drawText(formatMonth(player.dob.getMonth()), {
+        x: 495,
+        y: 715,
+        size: 9,
+        font: helvetica,
+        color: rgb(0, 0, 0),
+      });
+
+      page.drawText(player.dob.getDate().toString(), {
+        x: 525,
+        y: 715,
+        size: 9,
+        font: helvetica,
+        color: rgb(0, 0, 0),
+      });
+
+      page.drawText(player.dob.getFullYear().toString(), {
+        x: 549,
+        y: 715,
+        size: 9,
+        font: helvetica,
+        color: rgb(0, 0, 0),
+      });
+
+      const year = player.dob.getFullYear();
+      let yDivision = 674;
+
+      if (year <= 2011 && year >= 2008) {
+        yDivision = 661;
+      }
+
+      if (year <= 2007) {
+        yDivision = 647;
+      }
+
+      page.drawText("X", {
+        x: 374,
+        y: yDivision,
+        size: 12,
+        font: helvetica,
+        color: rgb(0, 0, 0),
+      });
+
       deck.pokemon.forEach((card, i) => {
         drawRow(page, helvetica, i, "pokemon", card);
       });
@@ -35,25 +100,14 @@ export const PdfViewer = ({ deck }: { deck: Deck }) => {
       });
 
       const dataUri = await pdf.saveAsBase64({ dataUri: true });
-      const viewport = page.getSize();
-      const outputScale = window.devicePixelRatio || 1;
-
-      iframe.width = Math.floor(viewport.width * outputScale).toString();
-      iframe.height = Math.floor(viewport.height * outputScale).toString();
-      iframe.style.width = Math.floor(viewport.width) + "px";
-      iframe.style.height = Math.floor(viewport.height) + "px";
 
       iframe.src = dataUri;
     };
 
     renderPdf().catch((err) => console.error(err));
-  }, [iframeRef]);
+  }, [iframeRef, deck]);
 
-  return (
-    <div>
-      <iframe ref={iframeRef}></iframe>
-    </div>
-  );
+  return <iframe ref={iframeRef} width="90%" height="100%"></iframe>;
 };
 
 const drawRow = (page: PDFPage, font: PDFFont, rowNum: number, cardType: CardType, card: Card) => {
@@ -100,4 +154,14 @@ const drawRow = (page: PDFPage, font: PDFFont, rowNum: number, cardType: CardTyp
     font,
     color: rgb(0, 0, 0),
   });
+};
+
+const formatMonth = (month: number) => {
+  let val = (month + 1).toString();
+
+  if (val.length === 1) {
+    val = "0" + val;
+  }
+
+  return val;
 };
