@@ -52,7 +52,7 @@ export const PdfViewer = ({ deck, player }: { deck: Deck; player: Player }) => {
         color: rgb(0, 0, 0),
       });
 
-      page.drawText(player.dob.getDate().toString(), {
+      page.drawText(zeroPad(player.dob.getDate()), {
         x: 525,
         y: 715,
         size: 9,
@@ -161,8 +161,8 @@ const drawRow = (page: PDFPage, font: PDFFont, rowNum: number, cardType: CardTyp
   });
 };
 
-const formatMonth = (month: number) => {
-  let val = (month + 1).toString();
+const zeroPad = (n: number) => {
+  let val = n.toString();
 
   if (val.length === 1) {
     val = "0" + val;
@@ -170,3 +170,5 @@ const formatMonth = (month: number) => {
 
   return val;
 };
+
+const formatMonth = (month: number) => zeroPad(month + 1);

@@ -31,7 +31,7 @@ export const DecklistGenerator = () => {
     }
 
     if (dobRef.current) {
-      nextFormData.player.dob = parse(dobRef.current.value, "MM/dd/yyyy", new Date());
+      nextFormData.player.dob = parse(dobRef.current.value, "yyyy-MM-dd", new Date());
     }
 
     if (textareaRef.current) {
@@ -48,7 +48,7 @@ export const DecklistGenerator = () => {
       <div class="flex flex-row space-x-3">
         <input ref={nameRef} type="text" placeholder="Full Name" autoFocus />
         <input ref={playerIdRef} type="text" placeholder="Player ID" />
-        <input ref={dobRef} type="text" placeholder="MM/DD/YYYY" />
+        <input ref={dobRef} type="date" placeholder="MM/DD/YYYY" />
       </div>
       <div class="flex mt-4">
         <div class="basis-1/3">
