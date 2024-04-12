@@ -73,7 +73,7 @@ export const DecklistGenerator = () => {
         />
         <input class="px-4 py-2 rounded-sm" ref={dobRef} type="date" placeholder="MM/DD/YYYY" />
       </div>
-      <div class="flex flex-col md:flex-row mt-4">
+      <div class="flex flex-col md:flex-row mt-8">
         <div class="md:basis-1/3">
           <textarea
             ref={textareaRef}
@@ -82,7 +82,7 @@ export const DecklistGenerator = () => {
             placeholder="Deck list exported from Limitless or PTCGL"
           />
         </div>
-        <div class="md:basis-2/3 md:ml-4">
+        <div class="mt-4 md:mt-0 md:basis-2/3 md:ml-4">
           <PdfViewer deck={formData.deck} player={formData.player} />
         </div>
       </div>
@@ -91,13 +91,13 @@ export const DecklistGenerator = () => {
           type="submit"
           class="rounded border-blue-800 border-2 bg-blue-600 text-white font-bold py-2 px-4"
         >
-          Generate
+          Preview
         </button>
         <button
           class="rounded border-green-800 border-2 bg-green-600 text-white font-bold py-2 px-4 ml-4"
           onClick={openPdfInNewWindow}
         >
-          Print
+          Generate
         </button>
       </div>
     </form>
