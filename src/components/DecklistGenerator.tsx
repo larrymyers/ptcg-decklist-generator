@@ -1,8 +1,22 @@
 import { parseDecklist, type Deck } from "@src/decklist/parser";
+import { generatePDF, toObjectURL, type Player } from "@src/decklist/pdf";
 import { PdfViewer } from "./PdfViewer";
 import { useRef, useState } from "preact/hooks";
 import { parse } from "date-fns/parse";
-import type { Player } from "@src/decklist/pdf";
+
+interface AppState {
+  player: Player;
+  deck: Deck;
+}
+
+const defaultAppState = (): AppState => ({
+  player: {
+    name: "",
+    playerId: "",
+    dob: new Date(),
+  },
+  deck: { pokemon: [], trainers: [], energy: [] },
+});
 
 export const DecklistGenerator = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -11,9 +25,7 @@ export const DecklistGenerator = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [appState, setAppState] = useState<AppState>(defaultAppState());
 
-  const preview = (evt: Event) => {
-    evt.preventDefault();
-
+  const getNextAppState = () => {
     const nextAppState = { ...appState };
 
     if (nameRef.current) {
@@ -34,17 +46,23 @@ export const DecklistGenerator = () => {
       nextAppState.deck = deck;
     }
 
-    setAppState(nextAppState);
+    return nextAppState;
+  };
+
+  const preview = (evt: Event) => {
+    evt.preventDefault();
+
+    setAppState(getNextAppState());
   };
 
   const openNewWindow = (evt: Event) => {
     evt.preventDefault();
 
-    const iframe = document.querySelector("iframe");
+    const nextAppState = getNextAppState();
 
-    if (iframe) {
-      window.open(iframe.src, "_blank");
-    }
+    generatePDF(nextAppState)
+      .then(toObjectURL)
+      .then((url: string) => window.open(url, "_blank"));
   };
 
   return (
@@ -104,17 +122,3 @@ export const DecklistGenerator = () => {
     </div>
   );
 };
-
-interface AppState {
-  player: Player;
-  deck: Deck;
-}
-
-const defaultAppState = (): AppState => ({
-  player: {
-    name: "",
-    playerId: "",
-    dob: new Date(),
-  },
-  deck: { pokemon: [], trainers: [], energy: [] },
-});
