@@ -43,33 +43,39 @@ export const DecklistGenerator = () => {
     setFormData(nextFormData);
   };
 
-  const printPDF = (evt: Event) => {
+  const openPdfInNewWindow = (evt: Event) => {
     evt.preventDefault();
 
     const iframe = document.querySelector("iframe");
 
     if (iframe) {
-      iframe.contentWindow?.print();
+      window.open(iframe.src, "_blank");
     }
   };
 
   return (
     <form onSubmit={onGenerate}>
-      <div class="flex flex-row space-x-3">
-        <input ref={nameRef} type="text" placeholder="Full Name" autoFocus />
-        <input ref={playerIdRef} type="text" placeholder="Player ID" />
-        <input ref={dobRef} type="date" placeholder="MM/DD/YYYY" />
+      <div class="flex flex-col space-y-4 md:flex-row md:space-x-3 md:space-y-0">
+        <input
+          class="px-4 py-2 rounded-sm"
+          ref={nameRef}
+          type="text"
+          placeholder="Full Name"
+          autoFocus
+        />
+        <input class="px-4 py-2 rounded-sm" ref={playerIdRef} type="text" placeholder="Player ID" />
+        <input class="px-4 py-2 rounded-sm" ref={dobRef} type="date" placeholder="MM/DD/YYYY" />
       </div>
-      <div class="flex mt-4">
-        <div class="basis-1/3">
+      <div class="flex flex-col md:flex-row mt-4">
+        <div class="md:basis-1/3">
           <textarea
             ref={textareaRef}
             rows={30}
-            class="w-full h-full"
+            class="w-full px-4 py-2 rounded-sm"
             placeholder="Deck list exported from Limitless or PTCGL"
           />
         </div>
-        <div class="basis-2/3 ml-4">
+        <div class="md:basis-2/3 md:ml-4">
           <PdfViewer deck={formData.deck} player={formData.player} />
         </div>
       </div>
@@ -82,7 +88,7 @@ export const DecklistGenerator = () => {
         </button>
         <button
           class="rounded border-green-800 border-2 bg-green-600 text-white font-bold py-2 px-4 ml-4"
-          onClick={printPDF}
+          onClick={openPdfInNewWindow}
         >
           Print
         </button>
