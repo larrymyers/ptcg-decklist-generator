@@ -3,6 +3,7 @@ import { type PDFPage, type PDFFont, PDFDocument, StandardFonts, rgb, drawText }
 import { useEffect, useRef } from "preact/hooks";
 
 const pdfUrl = "/play-pokemon-deck-list-85x11-tef.pdf";
+const a4PdfUrl = "/play-pokemon-deck-list-a4-tef.pdf";
 
 export interface Player {
   name: string;
@@ -10,6 +11,7 @@ export interface Player {
   dob: Date;
 }
 
+export type Size = "standard" | "a4";
 export type CardType = "pokemon" | "trainer" | "energy";
 
 export const PdfViewer = ({ deck, player }: { deck: Deck; player: Player }) => {
