@@ -1,0 +1,2 @@
+- Persist Player Name, Player ID, and DOB to localStorage to make repeat use easier
+- Figure out how to best display the preview in mobile
