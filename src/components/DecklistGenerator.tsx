@@ -2,6 +2,7 @@ import { parseDecklist, type Deck } from "@src/decklist/parser";
 import { generatePDF, toObjectURL, type Player } from "@src/decklist/pdf";
 import { PdfViewer } from "./PdfViewer";
 import { useRef, useState } from "preact/hooks";
+import type { FunctionComponent } from "preact";
 import { parse } from "date-fns/parse";
 
 interface AppState {
@@ -70,30 +71,46 @@ export const DecklistGenerator = () => {
       <div class="md:basis-1/4">
         <form onSubmit={preview}>
           <div class="flex flex-col space-y-4 md:flex-row md:space-x-3 md:space-y-0">
-            <input
-              class="px-4 py-2 rounded-sm border-slate-400 border-2"
-              ref={nameRef}
-              type="text"
-              maxLength={32}
-              placeholder="Full Name"
-              autoFocus
-            />
-            <input
-              class="px-4 py-2 rounded-sm border-slate-400 border-2 w-28"
-              ref={playerIdRef}
-              type="text"
-              maxLength={7}
-              placeholder="Player ID"
-            />
-            <input
-              class="px-4 py-2 rounded-sm border-slate-400 border-2"
-              ref={dobRef}
-              type="date"
-              placeholder="MM/DD/YYYY"
-            />
+            <div>
+              <Label for="player-name">Name</Label>
+              <input
+                id="player-name"
+                class="px-4 py-2 rounded-sm border-slate-400 border-2"
+                ref={nameRef}
+                type="text"
+                maxLength={32}
+                placeholder="Full Name"
+                autoFocus
+              />
+            </div>
+
+            <div>
+              <Label for="player-id">Player ID</Label>
+              <input
+                id="player-id"
+                class="px-4 py-2 rounded-sm border-slate-400 border-2 w-28"
+                ref={playerIdRef}
+                type="text"
+                maxLength={7}
+                placeholder="Player ID"
+              />
+            </div>
+
+            <div>
+              <Label for="player-dob">Date of Birth</Label>
+              <input
+                id="player-dob"
+                class="px-4 py-2 rounded-sm border-slate-400 border-2"
+                ref={dobRef}
+                type="date"
+                placeholder="MM/DD/YYYY"
+              />
+            </div>
           </div>
           <div class="mt-4">
+            <Label for="deck-list">Deck List</Label>
             <textarea
+              id="deck-list"
               ref={textareaRef}
               rows={30}
               class="w-full px-4 py-2 rounded-sm border-slate-400 border-2"
@@ -122,3 +139,9 @@ export const DecklistGenerator = () => {
     </div>
   );
 };
+
+const Label: FunctionComponent<{ for?: string }> = (props) => (
+  <label class="block text-sm font-bold" for={props.for}>
+    {props.children}
+  </label>
+);
