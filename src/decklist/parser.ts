@@ -43,7 +43,14 @@ export const parseDecklist = (decklist: string): Deck => {
     const parts = line.split(" ");
     const card: Card = { quantity: -1, name: "", set: "", number: "" };
 
-    card.quantity = parseInt(parts[0], 10);
+    const quantity = parseInt(parts[0], 10);
+
+    // discard line (may be the "Total Cards:" line from PTCGL)
+    if (isNaN(quantity)) {
+      continue;
+    }
+
+    card.quantity = quantity;
     card.number = parts.slice(-1).join("");
     card.set = parts.slice(-2, -1).join("");
     card.name = parts.slice(1, -2).join(" ");
