@@ -1,23 +1,35 @@
 import { parseDecklist, type Deck } from "@src/decklist/parser";
-import { generatePDF, toObjectURL, type Player } from "@src/decklist/pdf";
+import { generatePDF, toObjectURL } from "@src/decklist/pdf";
 import { PdfViewer } from "./PdfViewer";
-import { useRef, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import type { FunctionComponent } from "preact";
 import { parse } from "date-fns/parse";
+import { format } from "date-fns/format";
+import { loadPlayer, savePlayer, type Player } from "@src/player";
 
 interface AppState {
   player: Player;
   deck: Deck;
 }
 
-const defaultAppState = (): AppState => ({
-  player: {
-    name: "",
-    playerId: "",
-    dob: new Date(),
-  },
-  deck: { pokemon: [], trainers: [], energy: [] },
-});
+const defaultAppState = (): AppState => {
+  const appState: AppState = {
+    player: {
+      name: "",
+      playerId: "",
+      dob: null,
+    },
+    deck: { pokemon: [], trainers: [], energy: [] },
+  };
+
+  const player = loadPlayer();
+
+  if (player) {
+    appState.player = player;
+  }
+
+  return appState;
+};
 
 export const DecklistGenerator = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -25,6 +37,20 @@ export const DecklistGenerator = () => {
   const dobRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [appState, setAppState] = useState<AppState>(defaultAppState());
+
+  useEffect(() => {
+    if (nameRef.current && appState.player.name) {
+      nameRef.current.value = appState.player.name;
+    }
+
+    if (playerIdRef.current && appState.player.playerId) {
+      playerIdRef.current.value = appState.player.playerId;
+    }
+
+    if (dobRef.current && appState.player.dob) {
+      dobRef.current.value = format(appState.player.dob, "yyyy-MM-dd");
+    }
+  }, []);
 
   const getNextAppState = () => {
     const nextAppState = { ...appState };
@@ -37,7 +63,7 @@ export const DecklistGenerator = () => {
       nextAppState.player.playerId = playerIdRef.current.value;
     }
 
-    if (dobRef.current) {
+    if (dobRef.current && dobRef.current.value != "") {
       nextAppState.player.dob = parse(dobRef.current.value, "yyyy-MM-dd", new Date());
     }
 
@@ -46,6 +72,8 @@ export const DecklistGenerator = () => {
       const deck = parseDecklist(content);
       nextAppState.deck = deck;
     }
+
+    savePlayer(nextAppState.player);
 
     return nextAppState;
   };
@@ -103,7 +131,6 @@ export const DecklistGenerator = () => {
                 class="px-4 py-2 rounded-sm border-slate-400 border-2"
                 ref={dobRef}
                 type="date"
-                placeholder="MM/DD/YYYY"
               />
             </div>
           </div>

@@ -1,2 +1,2 @@
-- Persist Player Name, Player ID, and DOB to localStorage to make repeat use easier
 - Figure out how to best display the preview in mobile
+- Deck lists with lots of one-of's or more than 4 types of energy don't fit. What's the solution here? Just a blank sheet with written text? Maybe the A4 PDF?
