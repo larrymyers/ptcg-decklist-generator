@@ -4,8 +4,8 @@ import { join } from "node:path";
 import { parseDecklist } from "./parser";
 
 describe("parseDecklist", () => {
-  test("Limitless deck list", () => {
-    const input = getTestdata("decklist.txt");
+  test("Limitless deck builder list", () => {
+    const input = getTestdata("limitless_builder_decklist.txt");
 
     const deck = parseDecklist(input);
 
@@ -26,6 +26,31 @@ describe("parseDecklist", () => {
       name: "Mist Energy",
       set: "TEF",
       number: "161",
+    });
+  });
+
+  test("Limitless tournament Deck List", () => {
+    const input = getTestdata("limitless_tournament_decklist.txt");
+
+    const deck = parseDecklist(input);
+
+    assert.deepEqual(deck.pokemon[0], {
+      quantity: 4,
+      name: "Roaring Moon",
+      set: "TEF",
+      number: "109",
+    });
+    assert.deepEqual(deck.trainers[0], {
+      quantity: 4,
+      name: "Professor Sada's Vitality",
+      set: "PAR",
+      number: "170",
+    });
+    assert.deepEqual(deck.energy[0], {
+      quantity: 9,
+      name: "Darkness Energy",
+      set: "",
+      number: "7",
     });
   });
 

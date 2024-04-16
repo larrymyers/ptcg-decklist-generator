@@ -52,8 +52,18 @@ export const parseDecklist = (decklist: string): Deck => {
 
     card.quantity = quantity;
     card.number = parts.slice(-1).join("");
-    card.set = parts.slice(-2, -1).join("");
-    card.name = parts.slice(1, -2).join(" ");
+
+    let setStart = -2;
+    let set = parts.slice(setStart, -1).join("");
+
+    // sometimes basic energy doesn't include a set
+    if (set.length != 3) {
+      set = "";
+      setStart = -1;
+    }
+
+    card.set = set;
+    card.name = parts.slice(1, setStart).join(" ");
 
     if (!deck[section]) {
       continue;
