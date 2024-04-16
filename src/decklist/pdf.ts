@@ -127,21 +127,23 @@ const drawRow = (page: PDFPage, font: PDFFont, rowNum: number, cardType: CardTyp
     color: rgb(0, 0, 0),
   });
 
-  page.drawText(card.set, {
-    x: 475,
-    y: yOffset,
-    size: 9,
-    font,
-    color: rgb(0, 0, 0),
-  });
+  if (cardType == "pokemon") {
+    page.drawText(card.set, {
+      x: 475,
+      y: yOffset,
+      size: 9,
+      font,
+      color: rgb(0, 0, 0),
+    });
 
-  page.drawText(card.number, {
-    x: 515,
-    y: yOffset,
-    size: 9,
-    font,
-    color: rgb(0, 0, 0),
-  });
+    page.drawText(card.number, {
+      x: 515,
+      y: yOffset,
+      size: 9,
+      font,
+      color: rgb(0, 0, 0),
+    });
+  }
 };
 
 const zeroPad = (n: number) => {
