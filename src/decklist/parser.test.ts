@@ -15,6 +15,12 @@ describe("parseDecklist", () => {
       set: "OBF",
       number: "26",
     });
+    assert.deepEqual(deck.pokemon[deck.pokemon.length - 1], {
+      quantity: 1,
+      name: "Lumineon V",
+      set: "PR-SW",
+      number: "250",
+    });
     assert.deepEqual(deck.trainers[3], {
       quantity: 1,
       name: "Professor Turo's Scenario",

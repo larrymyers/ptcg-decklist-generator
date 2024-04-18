@@ -57,7 +57,7 @@ export const parseDecklist = (decklist: string): Deck => {
     let set = parts.slice(setStart, -1).join("");
 
     // sometimes basic energy doesn't include a set
-    if (set.length != 3) {
+    if (!isSet(set)) {
       set = "";
       setStart = -1;
     }
@@ -74,3 +74,5 @@ export const parseDecklist = (decklist: string): Deck => {
 
   return deck;
 };
+
+const isSet = (set: string) => /\b(?:[A-Z]{3}|[A-Z]+(?:-[A-Z]+)*)\b/.test(set);
