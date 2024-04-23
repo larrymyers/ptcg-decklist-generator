@@ -1,3 +1,4 @@
 node_modules
 .DS_Store
 .env
+card_data/pokemon-tcg-data

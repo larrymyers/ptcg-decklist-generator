@@ -3,6 +3,7 @@ export interface Card {
   name: string;
   set: string;
   number: string;
+  regulationMark: string;
 }
 
 export interface Deck {
@@ -12,7 +13,10 @@ export interface Deck {
   [index: string]: Card[];
 }
 
-export const parseDecklist = (decklist: string): Deck => {
+// Lookup table of SetCode:SetNumber -> Regulation Mark. Example: "OBF:26" -> "G"
+export type CardRegulationMarks = Record<string, string>;
+
+export const parseDecklist = (decklist: string, lookupRegMark: CardRegulationMarks): Deck => {
   const lines = decklist.split("\n");
 
   let section = "";
@@ -41,7 +45,7 @@ export const parseDecklist = (decklist: string): Deck => {
     }
 
     const parts = line.split(" ");
-    const card: Card = { quantity: -1, name: "", set: "", number: "" };
+    let card: Card = { quantity: -1, name: "", set: "", number: "", regulationMark: "" };
 
     const quantity = parseInt(parts[0], 10);
 
@@ -63,7 +67,11 @@ export const parseDecklist = (decklist: string): Deck => {
     }
 
     card.set = set;
+
+    card = normalizeSetNumber(card);
+
     card.name = parts.slice(1, setStart).join(" ");
+    card.regulationMark = lookupRegMark[`${card.set}:${card.number}`] || "";
 
     if (!deck[section]) {
       continue;
@@ -73,6 +81,28 @@ export const parseDecklist = (decklist: string): Deck => {
   }
 
   return deck;
+};
+
+const normalizeSetNumber = (card: Card): Card => {
+  const normalized = { ...card };
+
+  // left pad gallerian gallery numbers, normalize GG6 -> GG06
+  if (card.set == "CRZ" && card.number.startsWith("GG")) {
+    const n = parseInt(card.number.slice(2), 10);
+
+    normalized.number = n < 10 ? "GG0" + n.toString() : "GG" + n.toString();
+  }
+
+  // prepend SHSW to the promo numbers
+  if (card.set == "PR-SW" && !card.number.startsWith("SHSW")) {
+    normalized.number = "SWSH" + card.number;
+  }
+
+  if (card.set == "SVP") {
+    normalized.set = "PR-SV";
+  }
+
+  return normalized;
 };
 
 const isSet = (set: string) => /\b(?:[A-Z]{3}|[A-Z]+(?:-[A-Z]+)*)\b/.test(set);

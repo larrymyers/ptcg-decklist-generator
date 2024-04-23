@@ -1,4 +1,4 @@
-import { parseDecklist, type Deck } from "@src/decklist/parser";
+import { parseDecklist, type CardRegulationMarks, type Deck } from "@src/decklist/parser";
 import { generatePDF, toObjectURL } from "@src/decklist/pdf";
 import { PdfViewer } from "./PdfViewer";
 import { useEffect, useRef, useState } from "preact/hooks";
@@ -7,9 +7,17 @@ import { parse } from "date-fns/parse";
 import { format } from "date-fns/format";
 import { loadPlayer, savePlayer, type Player } from "@src/player";
 
+// the card database is the lookup of Set Code -> Set Number -> Regulation Mark
+
+interface Set {
+  ids: string[];
+  cards: Record<string, string>;
+}
+
 interface AppState {
   player: Player;
   deck: Deck;
+  regMarks: CardRegulationMarks;
 }
 
 const defaultAppState = (): AppState => {
@@ -20,6 +28,7 @@ const defaultAppState = (): AppState => {
       dob: null,
     },
     deck: { pokemon: [], trainers: [], energy: [] },
+    regMarks: {},
   };
 
   const player = loadPlayer();
@@ -38,6 +47,18 @@ export const DecklistGenerator = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [appState, setAppState] = useState<AppState>(defaultAppState());
 
+  useEffect(() => {
+    async function loadCardDB() {
+      const resp = await fetch("/cards.json");
+      const regMarks: CardRegulationMarks = await resp.json();
+
+      setAppState({ ...appState, regMarks });
+    }
+
+    loadCardDB();
+  }, []);
+
+  // prefill inputs from localStorage
   useEffect(() => {
     if (nameRef.current && appState.player.name) {
       nameRef.current.value = appState.player.name;
@@ -69,7 +90,7 @@ export const DecklistGenerator = () => {
 
     if (textareaRef.current) {
       const content = textareaRef.current.value;
-      const deck = parseDecklist(content);
+      const deck = parseDecklist(content, nextAppState.regMarks);
       nextAppState.deck = deck;
     }
 

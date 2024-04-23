@@ -1,5 +1,6 @@
 import type { Deck } from "@src/decklist/parser";
-import { type Player, generatePDF, toObjectURL } from "@src/decklist/pdf";
+import { generatePDF, toObjectURL } from "@src/decklist/pdf";
+import type { Player } from "@src/player";
 import { useEffect, useRef } from "preact/hooks";
 
 export const PdfViewer = ({ deck, player }: { deck: Deck; player: Player }) => {

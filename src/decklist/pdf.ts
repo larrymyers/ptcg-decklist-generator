@@ -109,12 +109,13 @@ const drawRow = (page: PDFPage, font: PDFFont, rowNum: number, cardType: CardTyp
     cardTypeOffset = 458;
   }
 
-  const yOffset = 587 - rowNum * 13 - cardTypeOffset;
+  const yOffset = 588 - rowNum * 13 - cardTypeOffset;
+  const size = 8;
 
   page.drawText(card.quantity.toString(), {
     x: 272,
     y: yOffset,
-    size: 9,
+    size,
     font,
     color: rgb(0, 0, 0),
   });
@@ -122,7 +123,7 @@ const drawRow = (page: PDFPage, font: PDFFont, rowNum: number, cardType: CardTyp
   page.drawText(card.name, {
     x: 300,
     y: yOffset,
-    size: 9,
+    size,
     font,
     color: rgb(0, 0, 0),
   });
@@ -131,15 +132,23 @@ const drawRow = (page: PDFPage, font: PDFFont, rowNum: number, cardType: CardTyp
     page.drawText(card.set, {
       x: 475,
       y: yOffset,
-      size: 9,
+      size,
       font,
       color: rgb(0, 0, 0),
     });
 
     page.drawText(card.number, {
-      x: 515,
+      x: 508,
       y: yOffset,
-      size: 9,
+      size,
+      font,
+      color: rgb(0, 0, 0),
+    });
+
+    page.drawText(card.regulationMark, {
+      x: 555,
+      y: yOffset,
+      size,
       font,
       color: rgb(0, 0, 0),
     });
