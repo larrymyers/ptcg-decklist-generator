@@ -7,13 +7,6 @@ import { parse } from "date-fns/parse";
 import { format } from "date-fns/format";
 import { loadPlayer, savePlayer, type Player } from "@src/player";
 
-// the card database is the lookup of Set Code -> Set Number -> Regulation Mark
-
-interface Set {
-  ids: string[];
-  cards: Record<string, string>;
-}
-
 interface AppState {
   player: Player;
   deck: Deck;
