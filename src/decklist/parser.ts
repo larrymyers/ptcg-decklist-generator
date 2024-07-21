@@ -93,11 +93,6 @@ const normalizeSetNumber = (card: Card): Card => {
     normalized.number = n < 10 ? "GG0" + n.toString() : "GG" + n.toString();
   }
 
-  // prepend SHSW to the promo numbers
-  if (card.set == "PR-SW" && !card.number.startsWith("SHSW")) {
-    normalized.number = "SWSH" + card.number;
-  }
-
   if (card.set == "SVP") {
     normalized.set = "PR-SV";
   }
