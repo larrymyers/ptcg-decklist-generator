@@ -3,6 +3,7 @@ export interface Card {
   name: string;
   set: string;
   number: string;
+  displayNumber: string;
   regulationMark: string;
 }
 
@@ -45,7 +46,14 @@ export const parseDecklist = (decklist: string, lookupRegMark: CardRegulationMar
     }
 
     const parts = line.split(" ");
-    let card: Card = { quantity: -1, name: "", set: "", number: "", regulationMark: "" };
+    let card: Card = {
+      quantity: -1,
+      name: "",
+      set: "",
+      number: "",
+      displayNumber: "",
+      regulationMark: "",
+    };
 
     const quantity = parseInt(parts[0], 10);
 
@@ -85,6 +93,7 @@ export const parseDecklist = (decklist: string, lookupRegMark: CardRegulationMar
 
 const normalizeSetNumber = (card: Card): Card => {
   const normalized = { ...card };
+  normalized.displayNumber = card.number;
 
   // left pad gallerian gallery numbers, normalize GG6 -> GG06
   if (card.set == "CRZ" && card.number.startsWith("GG")) {
@@ -93,8 +102,9 @@ const normalizeSetNumber = (card: Card): Card => {
     normalized.number = n < 10 ? "GG0" + n.toString() : "GG" + n.toString();
   }
 
-  if (card.set == "SVP") {
-    normalized.set = "PR-SV";
+  // prepend SHSW to the promo numbers for display so they match the physical card
+  if (card.set == "PR-SW" && !card.number.startsWith("SHSW")) {
+    normalized.displayNumber = "SWSH" + card.number;
   }
 
   return normalized;

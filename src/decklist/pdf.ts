@@ -135,7 +135,7 @@ const drawRow = (page: PDFPage, font: PDFFont, rowNum: number, cardType: CardTyp
       color: rgb(0, 0, 0),
     });
 
-    page.drawText(card.number, {
+    page.drawText(card.displayNumber, {
       x: 508,
       y: yOffset,
       size,
