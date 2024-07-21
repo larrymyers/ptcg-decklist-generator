@@ -2,10 +2,8 @@ import { PDFDocument, PDFFont, PDFPage, StandardFonts, rgb } from "pdf-lib";
 import type { Card, Deck } from "./parser";
 import type { Player } from "@src/player";
 
-const pdfUrl = "/play-pokemon-deck-list-85x11-tef.pdf";
-const a4PdfUrl = "/play-pokemon-deck-list-a4-tef.pdf";
+const pdfUrl = "/play-pokemon-deck-list-85x11-twm.pdf";
 
-export type Size = "standard" | "a4";
 export type CardType = "pokemon" | "trainer" | "energy";
 
 export const generatePDF = async ({ deck, player }: { deck: Deck; player: Player }) => {

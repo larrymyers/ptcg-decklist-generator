@@ -1,0 +1,417 @@
+type Query {
+  tcg_sets(filter: tcg_sets_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [tcg_sets!]!
+  tcg_sets_by_id(id: ID!): tcg_sets
+  tcg_sets_aggregated(groupBy: [String], filter: tcg_sets_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [tcg_sets_aggregated!]!
+  tcg_sets_by_version(version: String!, id: ID!): version_tcg_sets
+  tcg_cards(filter: tcg_cards_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [tcg_cards!]!
+  tcg_cards_by_id(id: ID!): tcg_cards
+  tcg_cards_aggregated(groupBy: [String], filter: tcg_cards_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [tcg_cards_aggregated!]!
+  tcg_cards_by_version(version: String!, id: ID!): version_tcg_cards
+}
+
+type Subscription {
+  tcg_sets_mutated(event: EventEnum): tcg_sets_mutated
+  tcg_cards_mutated(event: EventEnum): tcg_cards_mutated
+}
+
+"""The `Boolean` scalar type represents `true` or `false`."""
+scalar Boolean
+
+"""ISO8601 Date values"""
+scalar Date
+
+"""
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+"""
+scalar Float
+
+"""A Float or a String"""
+scalar GraphQLStringOrFloat
+
+"""
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+"""
+scalar ID
+
+"""
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+"""
+scalar Int
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+"""
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+"""
+scalar String
+
+enum EventEnum {
+  create
+  update
+  delete
+}
+
+type date_functions {
+  year: Int
+  month: Int
+  week: Int
+  day: Int
+  weekday: Int
+}
+
+type datetime_functions {
+  year: Int
+  month: Int
+  week: Int
+  day: Int
+  weekday: Int
+  hour: Int
+  minute: Int
+  second: Int
+}
+
+type tcg_cards {
+  id: ID!
+  status: String
+  sort: Int
+  user_created: String
+  date_created: Date
+  date_created_func: datetime_functions
+  user_updated: String
+  date_updated: Date
+  date_updated_func: datetime_functions
+  card_number: String
+  language: String
+  name: String
+  cid: String
+  uid: String
+  feid: String
+  category: String
+  regulation_mark: String
+  image_url: String
+  set(filter: tcg_sets_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): tcg_sets
+  dHash: String
+  subcategory: String
+  pokemon_type: String
+  dexnum: Int
+}
+
+type tcg_cards_aggregated {
+  group: JSON
+  countAll: Int
+  count: tcg_cards_aggregated_count
+  countDistinct: tcg_cards_aggregated_count
+  avg: tcg_cards_aggregated_fields
+  sum: tcg_cards_aggregated_fields
+  avgDistinct: tcg_cards_aggregated_fields
+  sumDistinct: tcg_cards_aggregated_fields
+  min: tcg_cards_aggregated_fields
+  max: tcg_cards_aggregated_fields
+}
+
+type tcg_cards_aggregated_count {
+  id: Int
+  status: Int
+  sort: Int
+  user_created: Int
+  date_created: Int
+  user_updated: Int
+  date_updated: Int
+  card_number: Int
+  language: Int
+  name: Int
+  cid: Int
+  uid: Int
+  feid: Int
+  category: Int
+  regulation_mark: Int
+  image_url: Int
+  set: Int
+  dHash: Int
+  subcategory: Int
+  pokemon_type: Int
+  dexnum: Int
+}
+
+type tcg_cards_aggregated_fields {
+  sort: Float
+  dexnum: Float
+}
+
+type tcg_cards_mutated {
+  key: ID!
+  event: EventEnum
+  data: tcg_cards
+}
+
+type tcg_sets {
+  id: ID!
+  status: String
+  sort: Int
+  user_created: String
+  date_created: Date
+  date_created_func: datetime_functions
+  user_updated: String
+  date_updated: Date
+  date_updated_func: datetime_functions
+  language: String
+
+  """The code most used by players, e.g. TWM"""
+  expansion_code: String
+
+  """The "internal" code, doesn't usually match the set name, e.g. SV6"""
+  release_code: String
+
+  """
+  Exactly what is shown inside the set symbol box if applicable, e.g. TWM EN
+  """
+  set_code: String
+  name: String
+  sid: String
+  suid: String
+  logo_url: String
+  release_date: Date
+  release_date_func: date_functions
+  era: String
+  symbol_url: String
+}
+
+type tcg_sets_aggregated {
+  group: JSON
+  countAll: Int
+  count: tcg_sets_aggregated_count
+  countDistinct: tcg_sets_aggregated_count
+  avg: tcg_sets_aggregated_fields
+  sum: tcg_sets_aggregated_fields
+  avgDistinct: tcg_sets_aggregated_fields
+  sumDistinct: tcg_sets_aggregated_fields
+  min: tcg_sets_aggregated_fields
+  max: tcg_sets_aggregated_fields
+}
+
+type tcg_sets_aggregated_count {
+  id: Int
+  status: Int
+  sort: Int
+  user_created: Int
+  date_created: Int
+  user_updated: Int
+  date_updated: Int
+  language: Int
+
+  """The code most used by players, e.g. TWM"""
+  expansion_code: Int
+
+  """The "internal" code, doesn't usually match the set name, e.g. SV6"""
+  release_code: Int
+
+  """
+  Exactly what is shown inside the set symbol box if applicable, e.g. TWM EN
+  """
+  set_code: Int
+  name: Int
+  sid: Int
+  suid: Int
+  logo_url: Int
+  release_date: Int
+  era: Int
+  symbol_url: Int
+}
+
+type tcg_sets_aggregated_fields {
+  sort: Float
+}
+
+type tcg_sets_mutated {
+  key: ID!
+  event: EventEnum
+  data: tcg_sets
+}
+
+""""""
+type version_tcg_cards {
+  id: ID!
+  status: String
+  sort: Int
+  user_created: String
+  date_created: Date
+  date_created_func: datetime_functions
+  user_updated: String
+  date_updated: Date
+  date_updated_func: datetime_functions
+  card_number: String
+  language: String
+  name: String
+  cid: String
+  uid: String
+  feid: String
+  category: String
+  regulation_mark: String
+  image_url: String
+  set: String
+  dHash: String
+  subcategory: String
+  pokemon_type: String
+  dexnum: Int
+}
+
+""""""
+type version_tcg_sets {
+  id: ID!
+  status: String
+  sort: Int
+  user_created: String
+  date_created: Date
+  date_created_func: datetime_functions
+  user_updated: String
+  date_updated: Date
+  date_updated_func: datetime_functions
+  language: String
+
+  """The code most used by players, e.g. TWM"""
+  expansion_code: String
+
+  """The "internal" code, doesn't usually match the set name, e.g. SV6"""
+  release_code: String
+
+  """
+  Exactly what is shown inside the set symbol box if applicable, e.g. TWM EN
+  """
+  set_code: String
+  name: String
+  sid: String
+  suid: String
+  logo_url: String
+  release_date: Date
+  release_date_func: date_functions
+  era: String
+  symbol_url: String
+}
+
+input date_filter_operators {
+  _eq: String
+  _neq: String
+  _gt: String
+  _gte: String
+  _lt: String
+  _lte: String
+  _null: Boolean
+  _nnull: Boolean
+  _in: [String]
+  _nin: [String]
+  _between: [GraphQLStringOrFloat]
+  _nbetween: [GraphQLStringOrFloat]
+}
+
+input date_function_filter_operators {
+  year: number_filter_operators
+  month: number_filter_operators
+  week: number_filter_operators
+  day: number_filter_operators
+  weekday: number_filter_operators
+}
+
+input datetime_function_filter_operators {
+  year: number_filter_operators
+  month: number_filter_operators
+  week: number_filter_operators
+  day: number_filter_operators
+  weekday: number_filter_operators
+  hour: number_filter_operators
+  minute: number_filter_operators
+  second: number_filter_operators
+}
+
+input number_filter_operators {
+  _eq: GraphQLStringOrFloat
+  _neq: GraphQLStringOrFloat
+  _in: [GraphQLStringOrFloat]
+  _nin: [GraphQLStringOrFloat]
+  _gt: GraphQLStringOrFloat
+  _gte: GraphQLStringOrFloat
+  _lt: GraphQLStringOrFloat
+  _lte: GraphQLStringOrFloat
+  _null: Boolean
+  _nnull: Boolean
+  _between: [GraphQLStringOrFloat]
+  _nbetween: [GraphQLStringOrFloat]
+}
+
+input string_filter_operators {
+  _eq: String
+  _neq: String
+  _contains: String
+  _icontains: String
+  _ncontains: String
+  _starts_with: String
+  _nstarts_with: String
+  _istarts_with: String
+  _nistarts_with: String
+  _ends_with: String
+  _nends_with: String
+  _iends_with: String
+  _niends_with: String
+  _in: [String]
+  _nin: [String]
+  _null: Boolean
+  _nnull: Boolean
+  _empty: Boolean
+  _nempty: Boolean
+}
+
+input tcg_cards_filter {
+  id: string_filter_operators
+  status: string_filter_operators
+  sort: number_filter_operators
+  user_created: string_filter_operators
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  user_updated: string_filter_operators
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  card_number: string_filter_operators
+  language: string_filter_operators
+  name: string_filter_operators
+  cid: string_filter_operators
+  uid: string_filter_operators
+  feid: string_filter_operators
+  category: string_filter_operators
+  regulation_mark: string_filter_operators
+  image_url: string_filter_operators
+  set: tcg_sets_filter
+  dHash: string_filter_operators
+  subcategory: string_filter_operators
+  pokemon_type: string_filter_operators
+  dexnum: number_filter_operators
+  _and: [tcg_cards_filter]
+  _or: [tcg_cards_filter]
+}
+
+input tcg_sets_filter {
+  id: string_filter_operators
+  status: string_filter_operators
+  sort: number_filter_operators
+  user_created: string_filter_operators
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  user_updated: string_filter_operators
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  language: string_filter_operators
+  expansion_code: string_filter_operators
+  release_code: string_filter_operators
+  set_code: string_filter_operators
+  name: string_filter_operators
+  sid: string_filter_operators
+  suid: string_filter_operators
+  logo_url: string_filter_operators
+  release_date: date_filter_operators
+  release_date_func: date_function_filter_operators
+  era: string_filter_operators
+  symbol_url: string_filter_operators
+  _and: [tcg_sets_filter]
+  _or: [tcg_sets_filter]
+}
