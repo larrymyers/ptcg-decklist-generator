@@ -107,6 +107,10 @@ const normalizeSetNumber = (card: Card): Card => {
     normalized.displayNumber = "SWSH" + card.number;
   }
 
+  if (card.set == "PR-SV") {
+    normalized.set = "SVP";
+  }
+
   return normalized;
 };
 
