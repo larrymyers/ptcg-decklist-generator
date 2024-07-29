@@ -19,6 +19,7 @@ const defaultAppState = (): AppState => {
       name: "",
       playerId: "",
       dob: null,
+      deck: "",
     },
     deck: { pokemon: [], trainers: [], energy: [] },
     regMarks: {},
@@ -64,6 +65,10 @@ export const DecklistGenerator = () => {
     if (dobRef.current && appState.player.dob) {
       dobRef.current.value = format(appState.player.dob, "yyyy-MM-dd");
     }
+
+    if (textareaRef.current && appState.player.deck) {
+      textareaRef.current.value = appState.player.deck;
+    }
   }, []);
 
   const getNextAppState = () => {
@@ -84,6 +89,7 @@ export const DecklistGenerator = () => {
     if (textareaRef.current) {
       const content = textareaRef.current.value;
       const deck = parseDecklist(content, nextAppState.regMarks);
+      nextAppState.player.deck = content;
       nextAppState.deck = deck;
     }
 

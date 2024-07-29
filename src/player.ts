@@ -1,9 +1,8 @@
-import { pl } from "date-fns/locale";
-
 export interface Player {
   name: string;
   playerId: string;
   dob: Date | null;
+  deck: string;
 }
 
 var hasStorage = (function () {
@@ -21,6 +20,7 @@ interface SerializedPlayer {
   name: string;
   playerId: string;
   dob: string;
+  deck: string;
 }
 
 export const savePlayer = (player: Player) => {
@@ -62,5 +62,6 @@ export const loadPlayer = (): Player | null => {
     name: data.name,
     playerId: data.playerId,
     dob: new Date(data.dob),
+    deck: data.deck,
   };
 };
