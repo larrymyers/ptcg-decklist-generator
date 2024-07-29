@@ -33,15 +33,22 @@ export const savePlayer = (player: Player) => {
   localStorage.setItem("player", json);
 };
 
-export const loadPlayer = (): Player | null => {
+export const loadPlayer = (): Player => {
+  const emptyPlayer = {
+    name: "",
+    playerId: "",
+    dob: null,
+    deck: "",
+  };
+
   if (!hasStorage) {
-    return null;
+    return emptyPlayer;
   }
 
   const json = localStorage.getItem("player");
 
   if (!json) {
-    return null;
+    return emptyPlayer;
   }
 
   let data: SerializedPlayer | null;
@@ -51,11 +58,11 @@ export const loadPlayer = (): Player | null => {
   } catch (e) {
     console.log(e);
 
-    return null;
+    return emptyPlayer;
   }
 
   if (!data) {
-    return null;
+    return emptyPlayer;
   }
 
   return {
