@@ -23,6 +23,24 @@ interface SerializedPlayer {
   deck: string;
 }
 
+export const ageDivision = (player: Player) => {
+  if (!player.dob) {
+    return "Unknown";
+  }
+
+  const year = player.dob.getFullYear();
+
+  if (year <= 2011 && year >= 2008) {
+    return "Senior";
+  }
+
+  if (year <= 2007) {
+    return "Master";
+  }
+
+  return "Junior";
+};
+
 export const savePlayer = (player: Player) => {
   if (!hasStorage) {
     return;

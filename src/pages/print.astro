@@ -1,4 +1,5 @@
 ---
+import { PrintView } from "@src/components/PrintView";
 ---
 <html lang="en">
   <head>
@@ -7,20 +8,6 @@
     <title>PTCG Decklist Generator</title>
   </head>
   <body class="container my-8 px-6 md:mx-auto">
-    <div class="flex flex-col md:flex-row mt-8">
-      <table>
-        <tbody>
-          <tr>
-            <td colspan="3">Pokémon</td>
-          </tr>
-          <tr>
-            <td colspan="3">Trainers</td>
-          </tr>
-          <tr>
-            <td colspan="3">Energy</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <PrintView client:load/>
   </body>
 </html>
