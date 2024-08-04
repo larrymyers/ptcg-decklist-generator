@@ -33,59 +33,73 @@ export const PrintView = () => {
 
     loadCardDB();
   }, []);
-  return (
-    <div className="flex flex-col md:flex-row mt-8">
-      <div className="basis-1/4">
-        <div>Name</div>
-        <div>{appState.player.name}</div>
-        <div>Player ID</div>
-        <div>{appState.player.playerId}</div>
-        <div>Date of Birth</div>
-        <div>{appState.player.dob?.toLocaleDateString()}</div>
-        <div>Division</div>
-        <div>{ageDivision(appState.player)}</div>
-      </div>
 
-      <div className="basis-3/4">
-        <table>
-          <tbody>
-            <tr>
-              <td colspan={3} className="font-bold pb-3">
-                Pokémon
-              </td>
-            </tr>
-            {appState.deck.pokemon.map((card) => (
+  return (
+    <div>
+      <div>
+        <span class="pr-6">
+          <span class="font-bold pr-1">Name</span> {appState.player.name}
+        </span>
+        <span class="pr-6">
+          <span class="font-bold pr-1">Player ID</span> {appState.player.playerId}
+        </span>
+        <span class="pr-6">
+          <span class="font-bold pr-1">Date of Birth</span>{" "}
+          {appState.player.dob?.toLocaleDateString()}
+        </span>
+        <span class="pr-6">
+          <span class="font-bold pr-1">Division</span> {ageDivision(appState.player)}
+        </span>
+      </div>
+      <div className="flex flex-row mt-8">
+        <div className="basis-2/3">
+          <h2 class="text-lg font-bold">Pokémon</h2>
+          <table>
+            <thead>
               <tr>
-                <td>{card.quantity}</td>
-                <td>{card.name}</td>
-                <td>{card.set}</td>
-                <td>{card.regulationMark}</td>
+                <td class="pr-4 font-semibold">Quantity</td>
+                <td class="pr-4 font-semibold">Card</td>
+                <td class="pr-4 font-semibold">Set</td>
+                <td class="pr-4 font-semibold">Reg. Mark</td>
               </tr>
-            ))}
-            <tr>
-              <td colspan={3} className="font-bold pb-3 pt-3">
-                Trainers
-              </td>
-            </tr>
-            {appState.deck.trainers.map((card) => (
-              <tr>
-                <td>{card.quantity}</td>
-                <td>{card.name}</td>
-              </tr>
-            ))}
-            <tr>
-              <td colspan={3} className="font-bold pb-3 pt-3">
-                Energy
-              </td>
-            </tr>
-            {appState.deck.energy.map((card) => (
-              <tr>
-                <td>{card.quantity}</td>
-                <td>{card.name}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {appState.deck.pokemon.map((card) => (
+                <tr>
+                  <td class="pr-4">{card.quantity}</td>
+                  <td class="pr-4">{card.name}</td>
+                  <td class="pr-4">{card.set}</td>
+                  <td>{card.regulationMark}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <h2 class="mt-4 font-bold">Energy</h2>
+          <table>
+            <tbody>
+              {appState.deck.energy.map((card) => (
+                <tr>
+                  <td>{card.quantity}</td>
+                  <td>{card.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="basis-1/3">
+          <h2 class="font-bold">Trainers</h2>
+          <table>
+            <tbody>
+              {appState.deck.trainers.map((card) => (
+                <tr>
+                  <td>{card.quantity}</td>
+                  <td>{card.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
