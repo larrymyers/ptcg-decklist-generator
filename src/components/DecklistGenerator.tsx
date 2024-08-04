@@ -171,7 +171,7 @@ export const DecklistGenerator = () => {
               class="rounded border-blue-800 text-blue-800 hover:bg-blue-400 hover:text-white border-2 font-bold py-2 px-4 ml-4"
               href="/print"
             >
-              Use Large Form
+              Generate Text Only
             </a>
           </div>
         </form>
