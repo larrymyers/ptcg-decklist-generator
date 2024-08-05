@@ -95,19 +95,26 @@ const normalizeSetNumber = (card: Card): Card => {
   const normalized = { ...card };
   normalized.displayNumber = card.number;
 
+  // gallerian gallery cards are represented in different ways
+  if (normalized.set == "CRZ-GG") {
+    normalized.set = "CRZ";
+    normalized.number = "GG" + card.number;
+    normalized.displayNumber = normalized.number;
+  }
+
   // left pad gallerian gallery numbers, normalize GG6 -> GG06
-  if (card.set == "CRZ" && card.number.startsWith("GG")) {
-    const n = parseInt(card.number.slice(2), 10);
+  if (normalized.set == "CRZ" && normalized.number.startsWith("GG")) {
+    const n = parseInt(normalized.number.slice(2), 10);
 
     normalized.number = n < 10 ? "GG0" + n.toString() : "GG" + n.toString();
   }
 
   // prepend SHSW to the promo numbers for display so they match the physical card
-  if (card.set == "PR-SW" && !card.number.startsWith("SHSW")) {
-    normalized.displayNumber = "SWSH" + card.number;
+  if (normalized.set == "PR-SW" && !normalized.number.startsWith("SHSW")) {
+    normalized.displayNumber = "SWSH" + normalized.number;
   }
 
-  if (card.set == "PR-SV") {
+  if (normalized.set == "PR-SV") {
     normalized.set = "SVP";
   }
 
