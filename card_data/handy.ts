@@ -23,6 +23,7 @@ const STANDARD_SETS = [
   "SV5:TEF",
   "SV6:TWM",
   "SV6-5:SFA",
+  "SV7:SCR",
 ];
 
 interface Set {
