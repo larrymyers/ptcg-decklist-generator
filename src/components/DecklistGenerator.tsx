@@ -6,6 +6,7 @@ import type { FunctionComponent } from "preact";
 import { parse } from "date-fns/parse";
 import { format } from "date-fns/format";
 import { loadPlayer, savePlayer, type Player } from "@src/player";
+import { DeckValidation } from "./Validation";
 
 interface AppState {
   player: Player;
@@ -36,7 +37,12 @@ export const DecklistGenerator = () => {
       const resp = await fetch("/cards.json");
       const regMarks: CardRegulationMarks = await resp.json();
 
-      setAppState({ ...appState, regMarks });
+      let deck = appState.deck;
+      if (appState.player.deck) {
+        deck = parseDecklist(appState.player.deck, regMarks);
+      }
+
+      setAppState({ ...appState, deck, regMarks });
     }
 
     loadCardDB();
@@ -105,79 +111,84 @@ export const DecklistGenerator = () => {
   };
 
   return (
-    <div class="flex flex-col md:flex-row mt-8">
-      <div class="md:basis-1/4">
-        <form onSubmit={preview}>
-          <div class="flex flex-col space-y-4 md:flex-row md:space-x-3 md:space-y-0">
-            <div>
-              <Label for="player-name">Name</Label>
-              <input
-                id="player-name"
-                class="px-4 py-2 rounded-sm border-slate-400 border-2"
-                ref={nameRef}
-                type="text"
-                maxLength={32}
-                placeholder="Full Name"
-                autoFocus
-              />
-            </div>
-
-            <div>
-              <Label for="player-id">Player ID</Label>
-              <input
-                id="player-id"
-                class="px-4 py-2 rounded-sm border-slate-400 border-2 w-28"
-                ref={playerIdRef}
-                type="text"
-                maxLength={7}
-                placeholder="Player ID"
-              />
-            </div>
-
-            <div>
-              <Label for="player-dob">Date of Birth</Label>
-              <input
-                id="player-dob"
-                class="px-4 py-2 rounded-sm border-slate-400 border-2"
-                ref={dobRef}
-                type="date"
-              />
-            </div>
-          </div>
-          <div class="mt-4">
-            <Label for="deck-list">Deck List</Label>
-            <textarea
-              id="deck-list"
-              ref={textareaRef}
-              rows={30}
-              class="w-full px-4 py-2 rounded-sm border-slate-400 border-2"
-              placeholder="Deck list exported from Limitless or PTCGL"
-            />
-          </div>
-          <div class="mt-4">
-            <button
-              class="rounded border-blue-800 bg-blue-600 hover:bg-blue-900 border-2 text-white font-bold py-2 px-4"
-              onClick={openNewWindow}
-            >
-              Generate
-            </button>
-            <button
-              type="submit"
-              class="rounded border-blue-800 text-blue-800 hover:bg-blue-400 hover:text-white border-2 font-bold py-2 px-4 ml-4"
-            >
-              Preview
-            </button>
-            <a
-              class="rounded border-blue-800 text-blue-800 hover:bg-blue-400 hover:text-white border-2 font-bold py-2 px-4 ml-4"
-              href="/print"
-            >
-              Generate Text Only
-            </a>
-          </div>
-        </form>
+    <div>
+      <div class="py-2">
+        <DeckValidation deck={appState.deck} />
       </div>
-      <div class="mt-4 md:mt-0 md:basis-3/4 md:ml-4">
-        <PdfViewer deck={appState.deck} player={appState.player} />
+      <div class="flex flex-col md:flex-row mt-8">
+        <div class="md:basis-1/4">
+          <form onSubmit={preview}>
+            <div class="flex flex-col space-y-4 md:flex-row md:space-x-3 md:space-y-0">
+              <div>
+                <Label for="player-name">Name</Label>
+                <input
+                  id="player-name"
+                  class="px-4 py-2 rounded-sm border-slate-400 border-2"
+                  ref={nameRef}
+                  type="text"
+                  maxLength={32}
+                  placeholder="Full Name"
+                  autoFocus
+                />
+              </div>
+
+              <div>
+                <Label for="player-id">Player ID</Label>
+                <input
+                  id="player-id"
+                  class="px-4 py-2 rounded-sm border-slate-400 border-2 w-28"
+                  ref={playerIdRef}
+                  type="text"
+                  maxLength={7}
+                  placeholder="Player ID"
+                />
+              </div>
+
+              <div>
+                <Label for="player-dob">Date of Birth</Label>
+                <input
+                  id="player-dob"
+                  class="px-4 py-2 rounded-sm border-slate-400 border-2"
+                  ref={dobRef}
+                  type="date"
+                />
+              </div>
+            </div>
+            <div class="mt-4">
+              <Label for="deck-list">Deck List</Label>
+              <textarea
+                id="deck-list"
+                ref={textareaRef}
+                rows={30}
+                class="w-full px-4 py-2 rounded-sm border-slate-400 border-2"
+                placeholder="Deck list exported from Limitless or PTCGL"
+              />
+            </div>
+            <div class="mt-4">
+              <button
+                class="rounded border-blue-800 bg-blue-600 hover:bg-blue-900 border-2 text-white font-bold py-2 px-4"
+                onClick={openNewWindow}
+              >
+                Generate
+              </button>
+              <button
+                type="submit"
+                class="rounded border-blue-800 text-blue-800 hover:bg-blue-400 hover:text-white border-2 font-bold py-2 px-4 ml-4"
+              >
+                Preview
+              </button>
+              <a
+                class="rounded border-blue-800 text-blue-800 hover:bg-blue-400 hover:text-white border-2 font-bold py-2 px-4 ml-4"
+                href="/print"
+              >
+                Generate Text Only
+              </a>
+            </div>
+          </form>
+        </div>
+        <div class="mt-4 md:mt-0 md:basis-3/4 md:ml-4">
+          <PdfViewer deck={appState.deck} player={appState.player} />
+        </div>
       </div>
     </div>
   );
