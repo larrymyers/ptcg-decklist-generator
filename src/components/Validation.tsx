@@ -23,6 +23,11 @@ const validateDeck = (deck: Deck) => {
   const errors: string[] = [];
 
   const cardCount = getDeckCount(deck);
+
+  if (cardCount == 0) {
+    return errors;
+  }
+
   if (cardCount < 60) {
     errors.push(`Deck only has ${cardCount} cards.`);
   }
