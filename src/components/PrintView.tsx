@@ -36,23 +36,24 @@ export const PrintView = () => {
 
   return (
     <div>
-      <div>
-        <span class="pr-12">
-          <span class="font-bold pr-1">Name</span> {appState.player.name}
-        </span>
-        <span class="pr-12">
+      <div class="flex flex-row">
+        <div class="pr-12">
+          <span class="block md:inline font-bold pr-1">Name</span>{" "}
+          <span class="text-nowrap">{appState.player.name}</span>
+        </div>
+        <div class="pr-12">
           <span class="font-bold pr-1">Player ID</span> {appState.player.playerId}
-        </span>
-        <span class="pr-12">
+        </div>
+        <div class="pr-12">
           <span class="font-bold pr-1">Date of Birth</span>{" "}
           {appState.player.dob?.toLocaleDateString()}
-        </span>
-        <span class="pr-12">
+        </div>
+        <div class="pr-12">
           <span class="font-bold pr-1">Division</span> {ageDivision(appState.player)}
-        </span>
+        </div>
       </div>
-      <div className="flex flex-row mt-8">
-        <div className="mr-12">
+      <div class="flex flex-col md:flex-row mt-8">
+        <div class="mr-12">
           <h2 class="text-lg font-bold">Pokémon</h2>
           <table>
             <thead class="border-b-2 border-black">
@@ -95,7 +96,7 @@ export const PrintView = () => {
             </tbody>
           </table>
         </div>
-        <div className="">
+        <div class="mt-8 md:mt-0">
           <h2 class="text-lg font-bold">Trainers</h2>
           <table>
             <thead class="border-b-2 border-black">
