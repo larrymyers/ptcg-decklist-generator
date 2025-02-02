@@ -45,7 +45,14 @@ export const parseDecklist = (decklist: string, lookupRegMark: CardRegulationMar
       continue;
     }
 
-    const parts = line.split(" ");
+    let parts = line.split(" ");
+
+    // PTCGL has started denoting holo variants with a trailing 'PH'
+    // it is unneeded information, so remove it
+    if (parts.slice(-1).join("") == "PH") {
+      parts = parts.slice(0, -1);
+    }
+
     let card: Card = {
       quantity: -1,
       name: "",
