@@ -26,6 +26,7 @@ const STANDARD_SETS = [
   "SV7:SCR",
   "SV8:SSP",
   "SV8-5:PRE",
+  "SV9:JTG",
 ];
 
 interface Set {

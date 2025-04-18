@@ -2,7 +2,7 @@ import { PDFDocument, PDFFont, PDFPage, StandardFonts, rgb } from "pdf-lib";
 import type { Card, Deck } from "./parser";
 import type { Player } from "@src/player";
 
-const pdfUrl = "/play-pokemon-deck-list-85x11-scr.pdf";
+const pdfUrl = "/play-pokemon-deck-list-85x11-jtg.pdf";
 
 export type CardType = "pokemon" | "trainer" | "energy";
 
