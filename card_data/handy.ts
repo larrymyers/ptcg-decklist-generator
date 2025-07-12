@@ -3,16 +3,6 @@ import { join } from "path";
 
 // release code -> expansion code (printed on card)
 const STANDARD_SETS = [
-  "SWSHBSP:PR-SW",
-  "SWSH9:BRS",
-  "SWSH10:ASR",
-  "SWSH11:LOR",
-  "SWSH12:SIT",
-  "SWSH3-5:CPA",
-  "SWSH4-5:SHF",
-  "SWSH7-5:CEL",
-  "SWSH10-5:PGO",
-  "SWSH12-5:CRZ",
   "SVBSP:SVP",
   "SV1:SVI",
   "SV2:PAL",
@@ -39,7 +29,9 @@ interface Set {
 }
 
 const getSets = async (expansionCodes: string[]) => {
-  const resp = await fetch("https://api.handy.cards/items/tcg_sets?filter[language][_eq]=en-US");
+  const resp = await fetch(
+    "https://api.handy.cards/items/tcg_sets?filter[language][_eq]=en-US&filter[era][_eq]=sv"
+  );
 
   if (resp.status != 200) {
     console.error(await resp.text());
