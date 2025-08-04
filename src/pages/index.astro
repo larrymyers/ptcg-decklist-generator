@@ -1,6 +1,7 @@
 ---
 import { DecklistGenerator } from "@src/components/DecklistGenerator";
 ---
+
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -11,17 +12,40 @@ import { DecklistGenerator } from "@src/components/DecklistGenerator";
     <h1 class="text-3xl font-bold mb-2">Pokémon TCG Deck List Generator</h1>
     <p class="text-sm italic mb-6">Nobody likes filling these out by hand at local events</p>
     <h2 class="text-xl font-bold mb-4">Instructions</h2>
-    <p class="mb-4">Enter your name, your <a class="text-blue-500 underline" href="https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon/" target="_blank">Play! Pokémon ID</a>, and your date of birth into the fields below. Then add the deck list you will be playing for the event. Click the "Generate" button to open the PDF in a new window, and you can either save the PDF or print it.</p>
+    <ul class="list-disc list-inside mb-4">
+      <li>Enter your name, your <a
+          class="text-blue-500 underline"
+          href="https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon/"
+          target="_blank">Play! Pokémon ID</a>, and your date of birth into the fields below.
+      </li>
+      <li>Add the deck list you will be playing for the event.</li>
+      <li>Click the "Generate" button to open the PDF in a new window, save the PDF
+        or print it.
+      </li>
+    </ul>
 
-    <p class="italic">If you deck list does not fit in the PDF, click the "Generate Text Only" button. If you play Charizard or Lugia, this is probably what you want.</p>
+    <p class="italic">
+      If your deck list does not fit in the PDF, click the "Generate Text Only" button. If you play
+      Gholdengo, this is probably what you want.
+    </p>
 
     <p class="my-4 font-bold">How to get your deck list:</p>
     <ul class="list-disc list-inside mb-4">
-      <li>The <a class="text-blue-500 underline" href="https://my.limitlesstcg.com/builder" target="_blank">Limitless Deck Builder</a>: Select your deck and then click "Share" and "Copy as Text".</li>
+      <li>The <a
+          class="text-blue-500 underline"
+          href="https://my.limitlesstcg.com/builder"
+          target="_blank">Limitless Deck Builder</a>: Select your deck and then click "Share" and "Copy as Text".
+      </li>
       <li>A Limitless Tournament Deck List: Click the "Copy to Clipboard" button.</li>
-      <li>Pokémon TCG Live: Go to the Decks page, select the deck you want, and on the right panel click the "Export" button.</li>
+      <li>Pokémon TCG Live: Go to the Decks page, select the deck you want, and on the right panel
+        click the "Export" button.
+      </li>
     </ul>
-    <p><b>Important:</b> Make sure your deck list has the correct set and number for each Pokémon card. If you're using full art variants or promos your deck list much match the actual cards you are playing.</p>
-    <DecklistGenerator client:load/>
+    <p>
+      <b>Important:</b> Make sure your deck list has the correct set and number for each Pokémon card.
+      If you're using full art variants or promos your deck list much match the actual cards you are
+      playing.
+    </p>
+    <DecklistGenerator client:load />
   </body>
 </html>
