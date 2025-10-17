@@ -20,6 +20,7 @@ const STANDARD_SETS = [
   "SV10:DRI",
   "ZSV10-5:BLK",
   "RSV10-5:WHT",
+  "ME1:MEG",
 ];
 
 interface Set {
@@ -32,7 +33,7 @@ interface Set {
 
 const getSets = async (expansionCodes: string[]) => {
   const resp = await fetch(
-    "https://api.handy.cards/items/tcg_sets?filter[language][_eq]=en-US&filter[era][_eq]=sv"
+    "https://api.handy.cards/items/tcg_sets?filter[language][_eq]=en-US&filter[_or][0][era][_eq]=sv&filter[_or][1][era][_eq]=me",
   );
 
   if (resp.status != 200) {
@@ -75,7 +76,7 @@ const getCards = async (sets: Set[]) => {
     console.log(`Set: ${set.name}`);
 
     const resp = await fetch(
-      `https://api.handy.cards/items/tcg_cards?limit=-1&filter[language][_eq]=en-US&filter[set][_eq]=${set.id}`
+      `https://api.handy.cards/items/tcg_cards?limit=-1&filter[language][_eq]=en-US&filter[set][_eq]=${set.id}`,
     );
 
     if (resp.status != 200) {
