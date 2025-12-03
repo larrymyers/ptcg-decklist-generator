@@ -21,6 +21,7 @@ const STANDARD_SETS = [
   "ZSV10-5:BLK",
   "RSV10-5:WHT",
   "ME1:MEG",
+  "ME2:PFL",
 ];
 
 interface Set {
