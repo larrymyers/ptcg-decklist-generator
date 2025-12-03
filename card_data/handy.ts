@@ -20,6 +20,7 @@ const STANDARD_SETS = [
   "SV10:DRI",
   "ZSV10-5:BLK",
   "RSV10-5:WHT",
+  "MEBSP:MEP",
   "ME1:MEG",
   "ME2:PFL",
 ];
