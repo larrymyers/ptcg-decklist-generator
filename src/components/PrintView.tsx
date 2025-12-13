@@ -52,7 +52,7 @@ export const PrintView = () => {
           <span class="font-bold pr-1">Division</span> {ageDivision(appState.player)}
         </div>
       </div>
-      <div class="flex flex-col md:flex-row mt-8">
+      <div class="flex flex-row mt-8">
         <div class="mr-12">
           <h2 class="text-lg font-bold">Pokémon</h2>
           <table>
@@ -96,7 +96,7 @@ export const PrintView = () => {
             </tbody>
           </table>
         </div>
-        <div class="mt-8 md:mt-0">
+        <div class="">
           <h2 class="text-lg font-bold">Trainers</h2>
           <table>
             <thead class="border-b-2 border-black">
