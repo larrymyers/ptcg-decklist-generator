@@ -55,7 +55,7 @@ export const PrintView = () => {
       <div class="flex flex-row mt-8">
         <div class="mr-12">
           <h2 class="text-lg font-bold">Pokémon</h2>
-          <table>
+          <table class="w-full">
             <thead class="border-b-2 border-black">
               <tr class="uppercase">
                 <td class="pr-4 text-sm font-semibold">Qty</td>
@@ -79,7 +79,7 @@ export const PrintView = () => {
           </table>
 
           <h2 class="mt-8 text-lg font-bold">Energy</h2>
-          <table>
+          <table class="w-full">
             <thead class="border-b-2 border-black">
               <tr class="uppercase">
                 <td class="pr-4 text-sm font-semibold">Qty</td>
@@ -98,7 +98,7 @@ export const PrintView = () => {
         </div>
         <div class="">
           <h2 class="text-lg font-bold">Trainers</h2>
-          <table>
+          <table class="w-full">
             <thead class="border-b-2 border-black">
               <tr class="uppercase">
                 <td class="pr-4 text-sm font-semibold">Qty</td>
