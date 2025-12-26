@@ -164,7 +164,7 @@ export const DecklistGenerator = () => {
                 placeholder="Deck list exported from Limitless or PTCGL"
               />
             </div>
-            <div class="mt-4">
+            <div class="mt-4 flex flex-col md:flex-row gap-4">
               <button
                 class="rounded border-blue-800 bg-blue-600 hover:bg-blue-900 border-2 text-white font-bold py-2 px-4"
                 onClick={openNewWindow}
@@ -173,12 +173,12 @@ export const DecklistGenerator = () => {
               </button>
               <button
                 type="submit"
-                class="rounded border-blue-800 text-blue-800 hover:bg-blue-400 hover:text-white border-2 font-bold py-2 px-4 ml-4"
+                class="rounded border-blue-800 text-blue-800 hover:bg-blue-400 hover:text-white border-2 font-bold py-2 px-4"
               >
                 Preview
               </button>
               <a
-                class="rounded border-blue-800 text-blue-800 hover:bg-blue-400 hover:text-white border-2 font-bold py-2 px-4 ml-4"
+                class="rounded border-blue-800 text-blue-800 hover:bg-blue-400 hover:text-white text-center border-2 font-bold py-2 px-4"
                 href="/print"
               >
                 Generate Text Only

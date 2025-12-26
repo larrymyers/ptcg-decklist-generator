@@ -13,10 +13,10 @@ import { DecklistGenerator } from "@src/components/DecklistGenerator";
     <p class="text-sm italic mb-6">Nobody likes filling these out by hand at local events</p>
     <h2 class="text-xl font-bold mb-4">Instructions</h2>
     <ul class="list-disc list-inside mb-4">
-      <li>Enter your name, your <a
+      <li>Enter your name, <a
           class="text-blue-500 underline"
           href="https://www.pokemon.com/us/pokemon-trainer-club/play-pokemon/"
-          target="_blank">Play! Pokémon ID</a>, and your date of birth into the fields below.
+          target="_blank">Play! Pokémon ID</a>, and date of birth into the fields below.
       </li>
       <li>Add the deck list you will be playing for the event.</li>
       <li>Click the "Generate" button to open the PDF in a new window, save the PDF
@@ -25,26 +25,25 @@ import { DecklistGenerator } from "@src/components/DecklistGenerator";
     </ul>
 
     <p class="italic">
-      If your deck list does not fit in the PDF, click the "Generate Text Only" button. If you play
-      Gholdengo, this is probably what you want.
+      If your deck list does not fit in the PDF, click the "Generate Text Only" button.
     </p>
 
     <p class="my-4 font-bold">How to get your deck list:</p>
     <ul class="list-disc list-inside mb-4">
-      <li>The <a
+      <li><a
           class="text-blue-500 underline"
           href="https://my.limitlesstcg.com/builder"
           target="_blank">Limitless Deck Builder</a>: Select your deck and then click "Share" and "Copy as Text".
       </li>
-      <li>A Limitless Tournament Deck List: Click the "Copy to Clipboard" button.</li>
+      <li>Limitless Tournament Deck List: Click the "Copy to Clipboard" button.</li>
       <li>Pokémon TCG Live: Go to the Decks page, select the deck you want, and on the right panel
         click the "Export" button.
       </li>
     </ul>
     <p>
       <b>Important:</b> Make sure your deck list has the correct set and number for each Pokémon card.
-      If you're using full art variants or promos your deck list much match the actual cards you are
-      playing.
+      If you're using full art variants or promos your deck list must match the actual cards you are
+      playing. Check for reprinted pokemon as well. (i.e. Dusknoir SFA vs Dusknoir PRE)
     </p>
     <DecklistGenerator client:load />
   </body>
