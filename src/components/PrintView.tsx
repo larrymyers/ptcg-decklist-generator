@@ -36,9 +36,9 @@ export const PrintView = () => {
 
   return (
     <div>
-      <div class="flex flex-row">
+      <div class="flex flex-col sm:flex-row">
         <div class="pr-12">
-          <span class="block md:inline font-bold pr-1">Name</span>{" "}
+          <span class="font-bold pr-1">Name</span>{" "}
           <span class="text-nowrap">{appState.player.name}</span>
         </div>
         <div class="pr-12">
@@ -52,7 +52,7 @@ export const PrintView = () => {
           <span class="font-bold pr-1">Division</span> {ageDivision(appState.player)}
         </div>
       </div>
-      <div class="flex flex-row mt-8">
+      <div class="flex flex-col sm:flex-row mt-8">
         <div class="mr-12">
           <h2 class="text-lg font-bold">Pokémon</h2>
           <table class="w-full">
@@ -96,7 +96,7 @@ export const PrintView = () => {
             </tbody>
           </table>
         </div>
-        <div class="">
+        <div class="mt-8 sm:mt-0">
           <h2 class="text-lg font-bold">Trainers</h2>
           <table class="w-full">
             <thead class="border-b-2 border-black">
