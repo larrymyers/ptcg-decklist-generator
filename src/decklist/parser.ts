@@ -14,7 +14,7 @@ export interface Deck {
   [index: string]: Card[];
 }
 
-// Lookup table of SetCode:SetNumber -> Regulation Mark. Example: "OBF:26" -> "G"
+// Lookup table of Name:SetCode:SetNumber -> Regulation Mark. Example: "Charmander:OBF:26" -> "G"
 export type CardRegulationMarks = Record<string, string>;
 
 export const parseDecklist = (decklist: string, lookupRegMark: CardRegulationMarks): Deck => {
@@ -84,9 +84,8 @@ export const parseDecklist = (decklist: string, lookupRegMark: CardRegulationMar
     card.set = set;
 
     card = normalizeSetNumber(card);
-
     card.name = parts.slice(1, setStart).join(" ");
-    card.regulationMark = lookupRegMark[`${card.set}:${card.number}`] || "";
+    card.regulationMark = lookupRegMark[`${card.name}:${card.set}:${card.number}`] || "";
 
     if (!deck[section]) {
       continue;
@@ -96,6 +95,11 @@ export const parseDecklist = (decklist: string, lookupRegMark: CardRegulationMar
   }
 
   return deck;
+};
+
+// "Lana’s Aid" => "Lana's Aid"
+export const normalizeName = (name: string) => {
+  return name.replaceAll("’", "'");
 };
 
 const normalizeSetNumber = (card: Card): Card => {

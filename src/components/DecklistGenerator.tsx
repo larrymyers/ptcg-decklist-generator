@@ -112,7 +112,7 @@ export const DecklistGenerator = () => {
 
   return (
     <div>
-      <div class="py-2">
+      <div class="py-2 my-4">
         <DeckValidation deck={appState.deck} />
       </div>
       <div class="flex flex-col md:flex-row mt-8">

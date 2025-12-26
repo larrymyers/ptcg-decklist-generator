@@ -1,3 +1,4 @@
+import { normalizeName } from "../src/decklist/parser";
 import { writeFileSync } from "fs";
 import { join } from "path";
 
@@ -91,7 +92,8 @@ const getCards = async (sets: Set[]) => {
     console.log(`Cards in Set: ${respBody.data.length}`);
 
     respBody.data.forEach((card) => {
-      cards[`${set.card_code}:${card.card_number}`] = card.regulation_mark;
+      const name = normalizeName(card.name);
+      cards[`${name}:${set.card_code}:${card.card_number}`] = card.regulation_mark;
     });
   }
 
