@@ -8,7 +8,8 @@
     "build": "astro build",
     "build_preview": "astro build --drafts",
     "test": "vitest run",
-    "generate": "vite-node ./card_data/handy.ts"
+    "generate": "vite-node ./card_data/handy.ts",
+    "generate:limitless": "vite-node ./card_data/limitless.ts"
   },
   "dependencies": {
     "@astrojs/preact": "^3.1.2",

@@ -53,7 +53,7 @@ const getDeckCount = (deck: Deck) => {
   return pokemon + trainers + energy;
 };
 
-const standardRegMarks = ["G", "H", "I"];
+const standardRegMarks = ["G", "H", "I", "J"];
 
 const getInvalidCards = (deck: Deck) => {
   let invalidCards = deck.pokemon.reduce((cards, c) => {
