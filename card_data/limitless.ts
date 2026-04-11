@@ -4,12 +4,6 @@ import { join } from "path";
 
 const STANDARD_SETS = [
   "SVP",
-  "SVI",
-  "PAL",
-  "OBF",
-  "MEW",
-  "PAR",
-  "PAF",
   "TEF",
   "TWM",
   "SFA",
@@ -24,6 +18,7 @@ const STANDARD_SETS = [
   "MEG",
   "PFL",
   "ASC",
+  "POR",
 ];
 
 const parseCardsFromHtml = (html: string, setCode: string): Record<string, string> => {
