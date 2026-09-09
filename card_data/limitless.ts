@@ -19,6 +19,8 @@ const STANDARD_SETS = [
   "PFL",
   "ASC",
   "POR",
+  "CRI",
+  "PBL",
 ];
 
 const parseCardsFromHtml = (html: string, setCode: string): Record<string, string> => {
